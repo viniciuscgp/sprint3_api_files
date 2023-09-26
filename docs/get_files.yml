@@ -1,0 +1,47 @@
+Read all source code from that user.
+Return a list of source codes owned by the authenticated user.
+---
+parameters:
+  - name: Authorization  # Cabeçalho para o token JWT
+    in: header
+    type: string
+    required: true
+    description: JWT token for authentication
+responses:
+  200:
+    description: List of files
+    schema:
+      type: array
+      items:
+        $ref: '#/definitions/File'
+  401:
+    description: Unauthorized - JWT token is missing or invalid
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+  404:
+    description: No files found for the provided user_id
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+  500:
+    description: Internal server error
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+definitions:          
+  File:
+    type: object
+    properties:
+      file_name:
+        type: string
+      file_content:
+        type: string
+      tags:
+        type: string

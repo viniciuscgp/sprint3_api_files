@@ -1,0 +1,59 @@
+Retrieves a file
+This endpoint retrieves a file identified by its file_name for the authenticated user.
+---      
+parameters:
+  - name: Authorization
+    in: header
+    type: string
+    required: true
+    description: JWT token for authentication
+  - name: file_id
+    in: path  # Indica que file_id é um parâmetro de caminho
+    type: integer
+    required: true
+    description: The ID of the file
+responses:
+  200:
+    description: File found
+    schema:
+      $ref: '#/definitions/File'
+  401:
+    description: Unauthorized - JWT token is missing or invalid
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+  404:
+    description: File not found
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+  400:
+    description: file_name required
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+  500:
+    description: Internal server error
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+definitions:
+  File:
+    type: object
+    properties:
+      id:
+        type: integer
+      file_name:
+        type: string
+      file_content:
+        type: string
+      tags:
+        type: string

@@ -1,0 +1,68 @@
+Updates a file
+This endpoint updates the content of a file identified by its file_id for the authenticated user.
+---
+parameters:
+  - name: Authorization  # Cabeçalho para o token JWT
+    in: header
+    type: string
+    required: true
+    description: JWT token for authentication
+  - in: path
+    name: file_id
+    type: integer
+    required: true
+  - in: body
+    name: body
+    schema:
+      $ref: '#/definitions/File'  # Referência a uma nova definição sem o user_id
+responses:
+  200:
+    description: File updated successfully
+    schema:
+      $ref: '#/definitions/File'
+  401:
+    description: Unauthorized - JWT token is missing or invalid
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+  404:
+    description: File not found
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+  400:
+    description: Required parameters missing or invalid
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+  500:
+    description: Internal server error
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+definitions:
+  File:  # Nova definição para o corpo da requisição PUT
+    type: object
+    required:
+      - id
+      - file_name
+      - file_content
+      - tags
+    properties:
+      id:
+        type: integer
+      file_name:
+        type: string
+      file_content:
+        type: string
+      tags:
+        type: string
+        
